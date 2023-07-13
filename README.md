@@ -1,4 +1,4 @@
-# Machine-Learning-and-Data-Science-Projects
+# MACHINE-LEARNING-AND-DATA-SCIENCE-PROJECTS
 
 This project is the first among multiple modules that will demonstrate my subject-matter expertise and how I acquired it. 
 
