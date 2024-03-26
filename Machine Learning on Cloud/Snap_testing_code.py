@@ -1,6 +1,9 @@
 import pandas as pd
 import os
+import matplotlib.pyplot as plt
 import numpy as np
+
+
 pd.set_option('Display.Max_column', None)
 
 clear = lambda:os.system('clear')
@@ -26,7 +29,20 @@ def NaNs_calculator(data):
                                     "DATA TYPE": types})
     return df_missing
 # --------------------
+def data_slicing(data, chunk_number):
+    """THIS FUNCTION WILL SLICE THE DATA FRAME INTO SMALER PIECES. FOR EXAMPLE, PASSING THE COUNTRIES IN WILL PROVIDE THE LABELS FOR YOUR GRAPHS"""
+    
+    # EXTRACTING THE CHUCKS
+    segment_numbers = int(len(data)/chunk_number)           # for example a chunk_number of 4 will give 4 segments of 44 rows per chunk. 
+    sliced_df = []                                          # Stored chunks
+    segment = None                                          # to store the slice 
 
+    for chunk in range(0, len(data), segment_numbers):
+        segment = data[chunk:chunk + segment_numbers]       # Start index to the end
+        sliced_df.append(segment)                           # Storing the segment
+
+    return sliced_df
+# -----------------------
 
 
 df = pd.read_csv(r"/Users/alberto/Downloads/PROJECTS/MACHINE-LEARNING-AND-DATA-SCIENCE-PROJECTS/Machine Learning on Cloud/global-data-on-sustainable-energy.csv", parse_dates=['Year'], index_col='Year')
@@ -34,7 +50,6 @@ df = pd.read_csv(r"/Users/alberto/Downloads/PROJECTS/MACHINE-LEARNING-AND-DATA-S
 
 # print(NaNs_calculator(df))
 
-name = None 
 
 # if("\n" in "Density\n(P/Km2)"):
 #     print('SI')
@@ -62,12 +77,34 @@ for x in list(df.columns):
         df.rename(columns={x: name.title()}, inplace=True)  # Setting the new name to the column
     name = ''
 
-    
 
-print(df.head(2))
+# -----------------
+
+# Decorations
+
+# labes_to_plot = sliced_df[0].index# Getting the names of the labels to graph
+# positions = len(labes_to_plot)# Ticks positions
+# rotation_angle = 45# Setting the rotation angle (in degrees)
+# plt.xticks(positions, labes_to_plot, rotation=rotation_angle)# Rotating the x-axis labels
+# plt.title('Enery consumption on average per country (KW/person)')# Setting the title
+# plt.grid()# Putting gred
+# plt.plot(sliced_df[0])#  section to plot
+# plt.tight_layout()
 
 
-    # elif(x == 'Value_co2_emissions_kt_by_country'):
-    #     name = x.replace("Value_co2_emissions_kt_by_country", "Target_1_Value_co2_emissions_per_country")
-    # elif(Primary energy consumption per capita (kWh/person) == ):
 
+# print(df.head(2))
+
+
+# ----------------------------------------
+clear()
+energy_country = df[['Entity', 'TARGET_1_PRIMARY_ENERGY_CONSUMPTION_PER_CAPITA_(KWH/PERSON)']]# Enerigy consumption per country
+data = data_slicing(energy_country['Entity'].unique(), 22) # Passing only the countries to plot the trend afterwards (10 countries per graph)
+print(data[0]) # this contains 8 countries to plot
+# len(data)
+
+l1 = [1, 2, 3, 4]
+l2 = ["a", "b", "c", "d"]
+
+for x, y in zip(l1, l2):
+    print(f'X = {x}, Y = {y}')
